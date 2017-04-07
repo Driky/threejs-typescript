@@ -11,13 +11,14 @@
     <body>
         <div id="container"></div>
         <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.3.2/require.min.js"></script>
+
         <script src="/modernizr.js"></script>
         <script>
             require.config({
                 baseUrl: '.',
                 paths: {
-                    lodash: '//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min',
-                    three: '//cdnjs.cloudflare.com/ajax/libs/three.js/r82/three.min',
+                    "lodash"      : '//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.2/lodash.min',
+                    "three"       : '//cdnjs.cloudflare.com/ajax/libs/three.js/r82/three.min'
                 },
             });
             require(['app']);

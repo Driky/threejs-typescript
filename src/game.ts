@@ -1,21 +1,42 @@
 ///<reference path="../typings/index.d.ts"/>
+import Stats  = require('stats.js');
 import config from './config';
-import * as THREE from 'three'; 
+import * as THREE from 'three';
 
 export default class Game {
 
-    renderer: THREE.Renderer;
-    camera: THREE.PerspectiveCamera;
-    scene: THREE.Scene;
+    renderer    :   THREE.WebGLRenderer;
+    camera      :   THREE.PerspectiveCamera;
+    scene       :   THREE.Scene;
+
+    stats       :   Stats;
+
+    geometry    :   THREE.Geometry;
+    surfacemesh :   THREE.Mesh;
+    wiremesh    :   THREE.Mesh;
+
+    clearColor  :   THREE.Color
+
+    //cameraControls:THREE.Track TODO rewrite trackball control
 
     constructor() {
         console.log('START');
+        this.clearColor = new THREE.Color(0xBBBBBB);
 
         let container = document.querySelector(config.domSelector);
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({
+            antialias               :   true,
+            preserveDrawingBuffer   :   true
+        });
         this.renderer.setSize(config.rendererW, config.rendererH);
+        this.renderer.setClearColor( this.clearColor, 1 );
         container.appendChild(this.renderer.domElement);
         console.log('renderer added');
+
+        this.stats = new Stats();
+        this.stats.domElement.style.position = 'absolute';
+        this.stats.domElement.style.bottom = '0px';
+        document.appendChild(this.stats.domElement);
 
         this.camera = new THREE.PerspectiveCamera(config.cameraViewAngle, (config.rendererW/config.rendererH), config.cameraNear, config.cameraFar);
         this.scene = new THREE.Scene();
