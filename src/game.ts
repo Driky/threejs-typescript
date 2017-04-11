@@ -2,7 +2,7 @@
 import Stats  = require('stats.js');
 import config from './config';
 import * as THREE from 'three';
-
+console.log("Stats = ",Stats);
 export default class Game {
 
     renderer    :   THREE.WebGLRenderer;
@@ -33,15 +33,20 @@ export default class Game {
         container.appendChild(this.renderer.domElement);
         console.log('renderer added');
 
-        this.stats = new Stats();
+        //this.stats = new Stats();
+        /*this.stats.showPanel( 1 );
         this.stats.domElement.style.position = 'absolute';
         this.stats.domElement.style.bottom = '0px';
-        document.appendChild(this.stats.domElement);
+        document.appendChild(this.stats.domElement);*/
+
+        this.scene = new THREE.Scene();
 
         this.camera = new THREE.PerspectiveCamera(config.cameraViewAngle, (config.rendererW/config.rendererH), config.cameraNear, config.cameraFar);
-        this.scene = new THREE.Scene();
+        this.camera.position.set(0, 0, 40);
         this.scene.add(this.camera);
         console.log('scene initialized');
+
+        //TODO add camera control here
 
         //mesh
         let sphereMaterial:THREE.MeshLambertMaterial = new THREE.MeshLambertMaterial({color: 0xCC0000})
@@ -61,21 +66,31 @@ export default class Game {
         window.addEventListener( 'resize', this.onWindowResize, false );
 
         // Schedule the first frame.
-        requestAnimationFrame(this.render);
+        requestAnimationFrame(this.animate);
         
     }
 
-    private render = ():void => {
-        console.log("Render function start")
+    private animate = ():void => {
+        // this.stats.begin();
+        console.log("Render function start")        
+        requestAnimationFrame(this.animate);
 
         this.update();
 
-        this.renderer.render(this.scene, this.camera);
-        requestAnimationFrame(this.render);
+        this.render();
+        
+        // this.stats.end();
     }
 
     private update(){
 
+    }
+
+    //we can check for dom change here for example
+    private render(){
+        let PIseconds	= Date.now() * Math.PI;
+
+        this.renderer.render(this.scene, this.camera);
     }
 
     private onWindowResize = ():void => {
