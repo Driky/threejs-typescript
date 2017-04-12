@@ -166,7 +166,7 @@ class Grid2TriGreedyOptimal {
             // ---------
 
             // compute a maximal independent set using koenigs theorem
-            HashSet<Integer> maxIndependentSet = computeMaximalIndependetSet(mapOtoU, mapUtoO, matching, revMatching);
+            let maxIndependentSet:Set<number>  = computeMaximalIndependetSet(mapOtoU, mapUtoO, matching, revMatching);
 
 //            // -- debug
 //            System.out.println("Maximal Independent Set");
@@ -179,15 +179,15 @@ class Grid2TriGreedyOptimal {
             // -------------
 
             // extract the point mappings for our edges
-            HashMap<poly2tri.Point, poly2tri.Point> edgeMapping = new HashMap<poly2tri.Point, poly2tri.Point>();
-            for (Integer vertex : maxIndependentSet) {
-                poly2tri.Point[] diag = diagonals.get(vertex);
-                edgeMapping.put(diag[0], diag[1]);
-                edgeMapping.put(diag[1], diag[0]);
+            let edgeMapping:Map<poly2tri.Point, poly2tri.Point>  = new Map<poly2tri.Point, poly2tri.Point>();
+            for (let vertex of maxIndependentSet) {
+                let diag:poly2tri.Point[]  = diagonals[vertex];
+                edgeMapping.set(diag[0], diag[1]);
+                edgeMapping.set(diag[1], diag[0]);
             }
 
             // extract point information
-            ArrayList<poly2tri.Point[]> pointInfoMap = new ArrayList<poly2tri.Point[]>();
+            let pointInfoMap:Array<poly2tri.Point[]>  = new Array<poly2tri.Point[]>();
             for (short[] outline : poly) {
                 poly2tri.Point prev = new poly2tri.Point(outline[outline.length - 4], outline[outline.length - 3]);
                 poly2tri.Point cur = new poly2tri.Point(outline[0], outline[1]);
@@ -345,8 +345,8 @@ class Grid2TriGreedyOptimal {
     }
 
     // compute a maximal independent set using koenig's theorem
-    private static HashSet<Integer> computeMaximalIndependetSet(HashMap<Integer, ArrayList<Integer>> mapOtoU, HashMap<Integer, ArrayList<Integer>> mapUtoO,
-                                                                HashMap<Integer, Integer> matching, HashMap<Integer, Integer> revMatching) {
+    private static computeMaximalIndependetSet(HashMap<Integer, ArrayList<Integer>> mapOtoU, HashMap<Integer, ArrayList<Integer>> mapUtoO,
+                                                                HashMap<Integer, Integer> matching, HashMap<Integer, Integer> revMatching):Set<Integer>  {
         // use Koenig's theorem to find vertex cover
         // 2. add all vertices not contained in matching from O to T
         HashSet<Integer> T = new HashSet<Integer>(mapOtoU.keySet());
